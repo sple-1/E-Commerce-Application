@@ -1,5 +1,6 @@
 package com.app.services;
 
+import com.app.entites.Coupon;
 import com.app.payloads.CouponDTO;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public interface CouponService {
 
     List<CouponDTO> getAllCoupons();
 
-    CouponDTO getCoupon(String couponCode);
+    Coupon getCouponByCode(String code);
 
     CouponDTO updateCoupon(CouponDTO couponDTO, Long couponId);
 

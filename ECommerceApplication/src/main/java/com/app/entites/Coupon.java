@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity
 @Data
 @Table(name = "coupons")
@@ -17,14 +19,25 @@ import lombok.NoArgsConstructor;
 public class Coupon {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long couponId;
 
     @NotBlank
     @Size(min = 3, message = "Coupon code must contain atleast 3 characters")
-    private String couponCode;
+    @Column(unique = true, nullable = false)
+    private String code;
 
     @NotNull
     @Positive
-    private double discountAmount;
+    private Double discountAmount;
+
+    private LocalDate startDate;
+
+    private LocalDate expiryDate;
+
+    @Column(nullable = false)
+    private Integer redeemQuota;
+
+    @Column(nullable = false)
+    private Integer redeemCount = 0;
 }

@@ -1,6 +1,8 @@
 package com.app.services;
 
 import com.app.entites.Coupon;
+import com.app.exceptions.APIException;
+import com.app.exceptions.ResourceNotFoundException;
 import com.app.payloads.CouponDTO;
 import com.app.repositories.CouponRepo;
 import jakarta.transaction.Transactional;
@@ -10,6 +12,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -40,18 +43,24 @@ public class CouponServiceImpl implements CouponService {
     public List<CouponDTO> getAllCoupons() {
         List<Coupon> coupons = couponRepo.findAll();
 
-        return coupons.stream().map(coupon -> modelMapper.map(coupon, CouponDTO.class)).toList();
+        if (coupons.size() == 0) {
+            throw new APIException("No coupon exists");
+        }
+        List<CouponDTO> couponDTOs = coupons.stream().map(coupon -> modelMapper.map(coupon, CouponDTO.class))
+                .collect(Collectors.toList());
+
+        return couponDTOs;
     }
 
     @Override
-    public CouponDTO getCoupon(String couponCode) {
-        Coupon coupon = couponRepo.findByCouponCode(couponCode);
+    public Coupon getCouponByCode(String code) {
+        Coupon coupon = couponRepo.findByCode(code);
 
         if (coupon == null) {
-            throw new RuntimeException("Coupon not found");
+            throw new ResourceNotFoundException("Coupon", "code", code);
         }
 
-        return modelMapper.map(coupon, CouponDTO.class);
+        return coupon;
     }
 
     @Override
