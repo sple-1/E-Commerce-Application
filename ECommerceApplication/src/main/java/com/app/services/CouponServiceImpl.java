@@ -137,7 +137,7 @@ public class CouponServiceImpl implements CouponService {
         }
 
         if (coupon.getStartDate().isAfter(java.time.LocalDate.now()) || coupon.getExpiryDate().isBefore(java.time.LocalDate.now())) {
-            throw new IllegalStateException("The coupon is not active and can't be redeemed.");
+            throw new APIException("The coupon is not active and can't be redeemed.");
         }
 
         return coupon.getRedeemCount() < coupon.getRedeemQuota();
@@ -148,7 +148,7 @@ public class CouponServiceImpl implements CouponService {
         if (canRedeem(coupon.getCode())) {
             coupon.setRedeemCount(coupon.getRedeemCount() + 1);
         } else {
-            throw new IllegalStateException("The coupon has run out of quota and can't be redeemed.");
+            throw new APIException("The coupon has run out of quota and can't be redeemed.");
         }
         couponRepo.save(coupon);
 
