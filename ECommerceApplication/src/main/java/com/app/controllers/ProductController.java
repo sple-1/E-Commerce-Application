@@ -33,10 +33,10 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 
-	@PostMapping("/admin/categories/{categoryId}/product")
-	public ResponseEntity<ProductDTO> addProduct(@Valid @RequestBody Product product, @PathVariable Long categoryId) {
+	@PostMapping("/admin/categories/{categoryId}/brands/{brandId}/product")
+	public ResponseEntity<ProductDTO> addProduct(@Valid @RequestBody Product product, @PathVariable Long categoryId, @PathVariable Long brandId) {
 
-		ProductDTO savedProduct = productService.addProduct(categoryId, product);
+		ProductDTO savedProduct = productService.addProduct(categoryId, brandId, product);
 
 		return new ResponseEntity<ProductDTO>(savedProduct, HttpStatus.CREATED);
 	}
@@ -65,6 +65,19 @@ public class ProductController {
 
 		return new ResponseEntity<ProductResponse>(productResponse, HttpStatus.FOUND);
 	}
+
+	@GetMapping("/public/brands/{brandId}/products")
+	public ResponseEntity<ProductResponse> getProductsByBrand(@PathVariable Long brandId,
+			@RequestParam(name = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
+			@RequestParam(name = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize,
+			@RequestParam(name = "sortBy", defaultValue = AppConstants.SORT_PRODUCTS_BY, required = false) String sortBy,
+			@RequestParam(name = "sortOrder", defaultValue = AppConstants.SORT_DIR, required = false) String sortOrder) {
+
+		ProductResponse productResponse = productService.searchByBrand(brandId, pageNumber, pageSize, sortBy,
+				sortOrder);
+
+		return new ResponseEntity<ProductResponse>(productResponse, HttpStatus.FOUND);
+	}
 	
 	@GetMapping("/public/products/keyword/{keyword}")
 	public ResponseEntity<ProductResponse> getProductsByKeyword(@PathVariable String keyword,
@@ -80,9 +93,9 @@ public class ProductController {
 	}
 
 	@PutMapping("/admin/products/{productId}")
-	public ResponseEntity<ProductDTO> updateProduct(@RequestBody Product product,
-			@PathVariable Long productId) {
-		ProductDTO updatedProduct = productService.updateProduct(productId, product);
+	public ResponseEntity<ProductDTO> updateProduct(@RequestBody Product product, @PathVariable Long productId,
+			@RequestParam(required = false) Long categoryId, @RequestParam(required = false) Long brandId) {
+		ProductDTO updatedProduct = productService.updateProduct(productId, product, categoryId, brandId);
 
 		return new ResponseEntity<ProductDTO>(updatedProduct, HttpStatus.OK);
 	}
