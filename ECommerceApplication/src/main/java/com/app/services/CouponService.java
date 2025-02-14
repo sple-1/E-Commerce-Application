@@ -16,4 +16,8 @@ public interface CouponService {
     CouponDTO updateCoupon(CouponDTO couponDTO, Long couponId);
 
     String deleteCoupon(Long couponId);
+
+    boolean canRedeem(String code);
+
+    CouponDTO redeemCoupon(String code);
 }

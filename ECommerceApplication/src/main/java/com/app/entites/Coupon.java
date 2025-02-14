@@ -1,5 +1,6 @@
 package com.app.entites;
 
+import java.time.LocalDate;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -14,8 +15,8 @@ import java.time.LocalDate;
 @Entity
 @Data
 @Table(name = "coupons")
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Coupon {
 
     @Id
@@ -33,11 +34,11 @@ public class Coupon {
 
     private LocalDate startDate;
 
-    private LocalDate expiryDate;
+	private LocalDate expiryDate;
 
-    @Column(nullable = false)
-    private Integer redeemQuota;
+	@Column(nullable = false)
+	private Integer redeemQuota;
 
-    @Column(nullable = false)
-    private Integer redeemCount = 0;
+	@Column(nullable = false)
+	private Integer redeemCount = 0;
 }
