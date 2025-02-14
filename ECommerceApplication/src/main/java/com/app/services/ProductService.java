@@ -20,7 +20,7 @@ public interface ProductService {
 	ProductResponse searchByBrand(Long brandId, Integer pageNumber, Integer pageSize, String sortBy,
 			String sortOrder);
 
-	ProductDTO updateProduct(Long productId, Product product);
+	ProductDTO updateProduct(Long productId, Product product, Long categoryId, Long brandId);
 
 	ProductDTO updateProductImage(Long productId, MultipartFile image) throws IOException;
 

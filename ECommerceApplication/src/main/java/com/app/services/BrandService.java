@@ -14,6 +14,8 @@ public interface BrandService {
 
     BrandResponse getBrands(Integer pageNumber, Integer pageSize, String sortBy, String sortOrder);
 
+    BrandDTO getBrand(Long brandId);
+
     BrandDTO updateBrand(Brand brand, Long brandId);
 
     BrandDTO updateBrandLogo(Long brandId, MultipartFile logo) throws IOException;

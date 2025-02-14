@@ -226,7 +226,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public ProductDTO updateProduct(Long productId, Product product) {
+	public ProductDTO updateProduct(Long productId, Product product, Long categoryId, Long brandId) {
 		Product productFromDB = productRepo.findById(productId)
 				.orElseThrow(() -> new ResourceNotFoundException("Product", "productId", productId));
 
@@ -236,8 +236,21 @@ public class ProductServiceImpl implements ProductService {
 
 		product.setImage(productFromDB.getImage());
 		product.setProductId(productId);
-		product.setCategory(productFromDB.getCategory());
-		product.setBrand(productFromDB.getBrand());
+
+		Category productCategory = productFromDB.getCategory();
+		if (categoryId != null) {
+			productCategory = categoryRepo.findById(categoryId)
+					.orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", categoryId));
+		}
+
+		Brand productBrand = productFromDB.getBrand();
+		if (brandId != null) {
+			productBrand = brandRepo.findById(brandId)
+					.orElseThrow(() -> new ResourceNotFoundException("Brand", "brandId", brandId));
+		}
+		
+		product.setCategory(productCategory);
+		product.setBrand(productBrand);
 
 		double specialPrice = product.getPrice() - ((product.getDiscount() * 0.01) * product.getPrice());
 		product.setSpecialPrice(specialPrice);

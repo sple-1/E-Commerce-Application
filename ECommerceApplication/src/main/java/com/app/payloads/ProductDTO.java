@@ -13,6 +13,8 @@ public class ProductDTO {
 	private String productName;
 	private String image;
 	private String description;
+	private BrandDTO brand;
+	private CategoryDTO category;
 	private Integer quantity;
 	private double price;
 	private double discount;

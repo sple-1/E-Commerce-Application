@@ -89,6 +89,14 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
+    public BrandDTO getBrand(Long brandId) {
+        Brand savedBrand = brandRepo.findById(brandId)
+                .orElseThrow(() -> new ResourceNotFoundException("Brand", "brandId", brandId));
+
+        return modelMapper.map(savedBrand, BrandDTO.class);
+    }
+
+    @Override
     public BrandDTO updateBrand(Brand brand, Long brandId) {
         Brand savedBrand = brandRepo.findById(brandId)
                 .orElseThrow(() -> new ResourceNotFoundException("Brand", "brandId", brandId));

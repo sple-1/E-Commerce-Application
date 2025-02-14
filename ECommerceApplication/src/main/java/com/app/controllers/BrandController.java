@@ -52,6 +52,14 @@ public class BrandController {
 		return new ResponseEntity<BrandResponse>(brandResponse, HttpStatus.FOUND);
 	}
 
+	@GetMapping("/public/brands/{brandId}")
+	public ResponseEntity<BrandDTO> getBrand(@PathVariable Long brandId) {
+		
+		BrandDTO brandDTO = brandService.getBrand(brandId);
+
+		return new ResponseEntity<BrandDTO>(brandDTO, HttpStatus.FOUND);
+	}
+
 	@PutMapping("/admin/brands/{brandId}")
 	public ResponseEntity<BrandDTO> updateBrand(@RequestBody Brand brand, @PathVariable Long brandId) {
 		BrandDTO brandDTO = brandService.updateBrand(brand, brandId);
