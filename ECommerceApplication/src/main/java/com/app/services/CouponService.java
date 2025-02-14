@@ -11,7 +11,7 @@ public interface CouponService {
 
     List<CouponDTO> getAllCoupons();
 
-    Coupon getCouponByCode(String code);
+    CouponDTO getCouponByCode(String code);
 
     CouponDTO updateCoupon(CouponDTO couponDTO, Long couponId);
 
@@ -19,5 +19,5 @@ public interface CouponService {
 
     boolean canRedeem(String code);
 
-    CouponDTO redeemCoupon(String code);
+    CouponDTO redeemCoupon(Coupon coupon);
 }

@@ -15,17 +15,20 @@ import org.springframework.stereotype.Service;
 
 import com.app.entites.Cart;
 import com.app.entites.CartItem;
+import com.app.entites.Coupon;
 import com.app.entites.Order;
 import com.app.entites.OrderItem;
 import com.app.entites.Payment;
 import com.app.entites.Product;
 import com.app.exceptions.APIException;
 import com.app.exceptions.ResourceNotFoundException;
+import com.app.payloads.CouponDTO;
 import com.app.payloads.OrderDTO;
 import com.app.payloads.OrderItemDTO;
 import com.app.payloads.OrderResponse;
 import com.app.repositories.CartItemRepo;
 import com.app.repositories.CartRepo;
+import com.app.repositories.CouponRepo;
 import com.app.repositories.OrderItemRepo;
 import com.app.repositories.OrderRepo;
 import com.app.repositories.PaymentRepo;
@@ -56,16 +59,22 @@ public class OrderServiceImpl implements OrderService {
 	public CartItemRepo cartItemRepo;
 
 	@Autowired
+	public CouponRepo couponRepo;
+
+	@Autowired
 	public UserService userService;
 
 	@Autowired
 	public CartService cartService;
 
 	@Autowired
+	public CouponService couponService;
+
+	@Autowired
 	public ModelMapper modelMapper;
 
 	@Override
-	public OrderDTO placeOrder(String email, Long cartId, String paymentMethod) {
+	public OrderDTO placeOrder(String email, Long cartId, String paymentMethod, String couponCode) {
 
 		Cart cart = cartRepo.findCartByEmailAndCartId(email, cartId);
 
@@ -74,11 +83,24 @@ public class OrderServiceImpl implements OrderService {
 		}
 
 		Order order = new Order();
-
 		order.setEmail(email);
 		order.setOrderDate(LocalDate.now());
-
 		order.setTotalAmount(cart.getTotalPrice());
+
+		if (couponCode != null && !couponCode.isEmpty()) {
+			Coupon coupon = couponRepo.findByCode(couponCode);
+			if (coupon == null) {
+				throw new ResourceNotFoundException("Coupon", "code", couponCode);
+			}
+			CouponDTO couponDTO = couponService.redeemCoupon(coupon);
+			order.setCoupon(coupon);
+	
+			double discountedAmount = cart.getTotalPrice() - couponDTO.getDiscountAmount();
+			order.setFinalAmount(Math.max(0, discountedAmount)); // Min 0
+		} else {
+			order.setFinalAmount(cart.getTotalPrice());
+		}
+	
 		order.setOrderStatus("Order Accepted !");
 
 		Payment payment = new Payment();

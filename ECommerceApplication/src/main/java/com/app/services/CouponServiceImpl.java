@@ -2,40 +2,20 @@ package com.app.services;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import com.app.entites.Address;
-import com.app.entites.Cart;
-import com.app.entites.CartItem;
 import com.app.entites.Coupon;
-import com.app.entites.Product;
 import com.app.exceptions.APIException;
 import com.app.exceptions.ResourceNotFoundException;
-import com.app.payloads.AddressDTO;
-import com.app.payloads.CartDTO;
 import com.app.payloads.CouponDTO;
-import com.app.payloads.CouponResponse;
-import com.app.payloads.OrderDTO;
-import com.app.payloads.ProductDTO;
-import com.app.repositories.CartItemRepo;
-import com.app.repositories.CartRepo;
 import com.app.repositories.CouponRepo;
-import com.app.repositories.ProductRepo;
 
 import jakarta.transaction.Transactional;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -103,14 +83,14 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
-    public Coupon getCouponByCode(String code) {
+    public CouponDTO getCouponByCode(String code) {
         Coupon coupon = couponRepo.findByCode(code);
 
         if (coupon == null) {
             throw new ResourceNotFoundException("Coupon", "code", code);
         }
 
-        return coupon;
+        return modelMapper.map(coupon, CouponDTO.class);
     }
 
     @Override
@@ -151,7 +131,10 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public boolean canRedeem(String code) {
-        Coupon coupon = getCouponByCode(code);
+        Coupon coupon = couponRepo.findByCode(code);
+        if (coupon == null) {
+            throw new ResourceNotFoundException("Coupon", "code", code);
+        }
 
         if (coupon.getStartDate().isAfter(java.time.LocalDate.now()) || coupon.getExpiryDate().isBefore(java.time.LocalDate.now())) {
             throw new IllegalStateException("The coupon is not active and can't be redeemed.");
@@ -161,14 +144,8 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
-    public CouponDTO redeemCoupon(String code) {
-        Coupon coupon = couponRepo.findByCode(code);
-
-        if (coupon == null) {
-            throw new ResourceNotFoundException("Coupon", "code", code);
-        }
-
-        if (canRedeem(code)) {
+    public CouponDTO redeemCoupon(Coupon coupon) {
+        if (canRedeem(coupon.getCode())) {
             coupon.setRedeemCount(coupon.getRedeemCount() + 1);
         } else {
             throw new IllegalStateException("The coupon has run out of quota and can't be redeemed.");

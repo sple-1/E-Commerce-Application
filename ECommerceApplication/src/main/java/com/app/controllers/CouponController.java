@@ -35,10 +35,10 @@ public class CouponController {
     }
 
     @GetMapping("/public/coupon/{couponCode}")
-    public ResponseEntity<Coupon> getCoupon(@PathVariable String couponCode) {
-        Coupon coupon = couponService.getCouponByCode(couponCode);
+    public ResponseEntity<CouponDTO> getCoupon(@PathVariable String couponCode) {
+        CouponDTO couponDTO = couponService.getCouponByCode(couponCode);
 
-        return new ResponseEntity<Coupon>(coupon, HttpStatus.FOUND);
+        return new ResponseEntity<CouponDTO>(couponDTO, HttpStatus.FOUND);
     }
 
     @PutMapping("/admin/coupon/{couponId}")
