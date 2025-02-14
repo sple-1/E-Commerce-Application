@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CouponDTO {
 
-    private Long couponId;
     private String code;
     private Double discountAmount;
+    private String startDate;
+    private String expiryDate;
+    private Integer redeemQuota;
 }
