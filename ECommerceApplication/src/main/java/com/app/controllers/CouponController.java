@@ -36,7 +36,7 @@ public class CouponController {
 
     @GetMapping("/public/coupon/{couponCode}")
     public ResponseEntity<CouponDTO> getCoupon(@PathVariable String couponCode) {
-        CouponDTO couponDTO = couponService.getCoupon(couponCode);
+        CouponDTO couponDTO = couponService.getCouponByCode(couponCode);
 
         return new ResponseEntity<CouponDTO>(couponDTO, HttpStatus.FOUND);
     }
