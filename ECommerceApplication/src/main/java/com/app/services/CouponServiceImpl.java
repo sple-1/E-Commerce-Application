@@ -1,5 +1,6 @@
 package com.app.services;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +32,32 @@ public class CouponServiceImpl implements CouponService {
         try {
             Coupon coupon = modelMapper.map(couponDTO, Coupon.class);
 
-            Coupon savedCoupon = couponRepo.save(coupon);
+            if (couponDTO.getStartDate() != null) {
+                coupon.setStartDate(LocalDate.parse(couponDTO.getStartDate()));
+            }
+            if (couponDTO.getExpiryDate() != null) {
+                coupon.setExpiryDate(LocalDate.parse(couponDTO.getExpiryDate()));
+            }
+
+            Coupon savedCoupon = couponRepo.findByCode(coupon.getCode());
+
+            if (savedCoupon != null) {
+                throw new APIException("Coupon with the code '" + couponDTO.getCode() + "' already exists !!!");
+            }
+
+            if (coupon.getStartDate() == null) {
+                throw new APIException("Start date cannot be null");
+            }
+
+            if (coupon.getStartDate().isAfter(coupon.getExpiryDate())) {
+                throw new APIException("Start date should be before expiry date");
+            }
+
+            if (coupon.getStartDate().isBefore(java.time.LocalDate.now())) {
+                throw new APIException("Start date should be in the future");
+            }
+
+            savedCoupon = couponRepo.save(coupon);
 
             couponDTO = modelMapper.map(savedCoupon, CouponDTO.class);
 
@@ -40,6 +66,8 @@ public class CouponServiceImpl implements CouponService {
             throw new RuntimeException("Error creating coupon: " + e.getMessage());
         }
     }
+
+
 
     @Override
     public List<CouponDTO> getAllCoupons() {
@@ -70,8 +98,19 @@ public class CouponServiceImpl implements CouponService {
         Coupon coupon = couponRepo.findById(couponId)
                 .orElseThrow(() -> new RuntimeException("Coupon not found"));
 
+        if (coupon.getStartDate().isAfter(coupon.getExpiryDate())) {
+            throw new APIException("Start date should be before expiry date");
+        }
+
+        if (coupon.getStartDate().isBefore(java.time.LocalDate.now())) {
+            throw new APIException("Start date should be in the future");
+        }
+
         coupon.setCode(couponDTO.getCode());
         coupon.setDiscountAmount(couponDTO.getDiscountAmount());
+        coupon.setStartDate(LocalDate.parse(couponDTO.getStartDate()));
+        coupon.setExpiryDate(LocalDate.parse(couponDTO.getExpiryDate()));
+        coupon.setRedeemQuota(couponDTO.getRedeemQuota());
 
         Coupon updatedCoupon = couponRepo.save(coupon);
 
