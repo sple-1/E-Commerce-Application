@@ -27,7 +27,7 @@ public class CouponController {
         return new ResponseEntity<CouponDTO>(savedCouponDTO, HttpStatus.CREATED);
     }
 
-    @GetMapping("/public/coupons/")
+    @GetMapping("/public/coupons")
     public ResponseEntity<CouponDTO> getCoupon() {
         List<CouponDTO> couponDTO = couponService.getAllCoupons();
 
