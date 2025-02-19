@@ -28,8 +28,10 @@ public class Coupon {
     @Column(unique = true, nullable = false)
     private String code;
 
-    @NotNull
-    @Positive
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private DiscountType discountType;
+
     private Double discountAmount;
 
     private LocalDate startDate;
