@@ -2,6 +2,7 @@ package com.app.controllers;
 
 import com.app.entites.Coupon;
 import com.app.payloads.CouponDTO;
+import com.app.payloads.UserDTO;
 import com.app.services.CouponService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -25,6 +26,13 @@ public class CouponController {
         CouponDTO savedCouponDTO = couponService.createCoupon(couponDTO);
 
         return new ResponseEntity<CouponDTO>(savedCouponDTO, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/admin/coupon/{userId}/{code}")
+    public ResponseEntity<UserDTO> assignCoupon(@PathVariable Long userId, @PathVariable String code) {
+        UserDTO userCouponDTO = couponService.assignCoupon(userId, code);
+
+        return new ResponseEntity<UserDTO>(userCouponDTO, HttpStatus.CREATED);
     }
 
     @GetMapping("/public/coupons")

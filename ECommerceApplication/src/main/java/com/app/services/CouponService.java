@@ -2,6 +2,7 @@ package com.app.services;
 
 import com.app.entites.Coupon;
 import com.app.payloads.CouponDTO;
+import com.app.payloads.UserDTO;
 
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface CouponService {
     boolean canRedeem(String code);
 
     CouponDTO redeemCoupon(Coupon coupon);
+
+    UserDTO assignCoupon(Long userId, String code);
 }

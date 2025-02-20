@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.app.entites.User;
+import com.app.payloads.UserDTO;
+import com.app.repositories.UserRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +26,9 @@ public class CouponServiceImpl implements CouponService {
 
 	@Autowired
 	private CouponRepo couponRepo;
+
+    @Autowired
+    private UserRepo userRepo;
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -153,5 +159,31 @@ public class CouponServiceImpl implements CouponService {
         couponRepo.save(coupon);
 
         return modelMapper.map(coupon, CouponDTO.class);
+    }
+
+    @Override
+    public UserDTO assignCoupon(Long userId, String code) {
+        Coupon coupon = couponRepo.findByCode(code);
+        if (coupon == null) {
+            throw new ResourceNotFoundException("Coupon", "code", code);
+        }
+
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "userId", userId));
+
+        if (coupon.getExpiryDate().isBefore(java.time.LocalDate.now())) {
+            throw new APIException("The coupon is not active and can't be assigned.");
+        }
+
+        if (coupon.getRedeemCount() >= coupon.getRedeemQuota()) {
+            throw new APIException("The coupon has run out of quota and can't be assigned.");
+        }
+
+        user.getCoupons().add(coupon);
+        userRepo.save(user);
+
+        UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+
+        return userDTO;
     }
 }
