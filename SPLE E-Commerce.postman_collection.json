@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2a6b8a8a-2122-4a05-add9-16eaac132c67",
+		"_postman_id": "42a9e09c-6703-4557-9993-24faad1e6bc9",
 		"name": "SPLE E-Commerce",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "22021249"
@@ -409,7 +409,7 @@
 							"variable": [
 								{
 									"key": "brandId",
-									"value": "11"
+									"value": "21"
 								}
 							]
 						}
@@ -445,7 +445,7 @@
 							"variable": [
 								{
 									"key": "brandId",
-									"value": "11"
+									"value": "21"
 								}
 							]
 						}
@@ -490,7 +490,7 @@
 							"variable": [
 								{
 									"key": "brandId",
-									"value": "11"
+									"value": "21"
 								}
 							]
 						}
@@ -537,7 +537,7 @@
 							"variable": [
 								{
 									"key": "brandId",
-									"value": "11"
+									"value": "21"
 								}
 							]
 						}
@@ -645,6 +645,47 @@
 							"variable": [
 								{
 									"key": "couponCode",
+									"value": "BLACKFRIDAY2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assign Coupon to User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/admin/coupon/:userId/:code",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"coupon",
+								":userId",
+								":code"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "2"
+								},
+								{
+									"key": "code",
 									"value": "SPRING10"
 								}
 							]
@@ -705,7 +746,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"code\": \"BLACKFRIDAY\",\r\n    \"discountAmount\": 40000,\r\n    \"startDate\": \"2025-11-15\",\r\n    \"expiryDate\": \"2025-12-30\",\r\n    \"redeemQuota\": 220\r\n}",
+							"raw": "{\r\n    \"code\": \"BLACKFRIDAY2\",\r\n    \"discountAmount\": 40000,\r\n    \"startDate\": \"2025-11-15\",\r\n    \"expiryDate\": \"2025-12-30\",\r\n    \"redeemQuota\": 220\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -750,7 +791,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"code\": \"BLACKFRIDAY\",\r\n    \"discountAmount\": 40000,\r\n    \"startDate\": \"2025-11-15\",\r\n    \"expiryDate\": \"2026-01-31\",\r\n    \"redeemQuota\": 220\r\n}\r\n\r\n// {\r\n//     \"code\": \"SPRING10\",\r\n//     \"discountAmount\": 10000,\r\n//     \"startDate\": \"2025-02-15\",\r\n//     \"expiryDate\": \"2025-04-30\",\r\n//     \"redeemQuota\": 100\r\n// }\r\n\r\n// {\r\n//     \"code\": \"SUMMER15\",\r\n//     \"discountAmount\": 15000,\r\n//     \"startDate\": \"2025-05-01\",\r\n//     \"expiryDate\": \"2025-08-31\",\r\n//     \"redeemQuota\": 200\r\n// }\r\n\r\n// {\r\n//     \"code\": \"FALL20\",\r\n//     \"discountAmount\": 20000,\r\n//     \"startDate\": \"2025-09-01\",\r\n//     \"expiryDate\": \"2025-11-30\",\r\n//     \"redeemQuota\": 150\r\n// }\r\n\r\n// {\r\n//     \"code\": \"WINTER25\",\r\n//     \"discountAmount\": 25000,\r\n//     \"startDate\": \"2025-12-01\",\r\n//     \"expiryDate\": \"2026-02-28\",\r\n//     \"redeemQuota\": 180\r\n// }\r\n\r\n// {\r\n//     \"code\": \"WELCOME5\",\r\n//     \"discountAmount\": 5000,\r\n//     \"startDate\": \"2025-03-01\",\r\n//     \"expiryDate\": \"2025-12-31\",\r\n//     \"redeemQuota\": 500\r\n// }\r\n\r\n// {\r\n//     \"code\": \"LOYAL30\",\r\n//     \"discountAmount\": 30000,\r\n//     \"startDate\": \"2025-06-01\",\r\n//     \"expiryDate\": \"2026-06-30\",\r\n//     \"redeemQuota\": 250\r\n// }\r\n\r\n// {\r\n//     \"code\": \"VIP50\",\r\n//     \"discountAmount\": 50000,\r\n//     \"startDate\": \"2025-07-01\",\r\n//     \"expiryDate\": \"2026-07-31\",\r\n//     \"redeemQuota\": 100\r\n// }\r\n\r\n// {\r\n//     \"code\": \"FLASH12\",\r\n//     \"discountAmount\": 12000,\r\n//     \"startDate\": \"2025-03-01\",\r\n//     \"expiryDate\": \"2025-06-30\",\r\n//     \"redeemQuota\": 300\r\n// }\r\n\r\n// {\r\n//     \"code\": \"HOLIDAY40\",\r\n//     \"discountAmount\": 40000,\r\n//     \"startDate\": \"2025-11-01\",\r\n//     \"expiryDate\": \"2026-01-15\",\r\n//     \"redeemQuota\": 220\r\n// }\r\n\r\n// {\r\n//     \"code\": \"NEWYEAR20\",\r\n//     \"discountAmount\": 20000,\r\n//     \"startDate\": \"2025-12-25\",\r\n//     \"expiryDate\": \"2026-03-31\",\r\n//     \"redeemQuota\": 180\r\n// }",
+							"raw": "{\r\n    \"code\": \"BLACKFRIDAY\",\r\n    \"discountAmount\": 40000,\r\n    \"discountType\": \"FLAT\",\r\n    \"startDate\": \"2025-11-15\",\r\n    \"expiryDate\": \"2026-01-31\",\r\n    \"redeemQuota\": 220\r\n}\r\n\r\n// {\r\n//     \"code\": \"SPRING10\",\r\n//     \"discountAmount\": 10000,\r\n//     \"discountType\": \"FLAT\",\r\n//     \"startDate\": \"2025-02-21\",\r\n//     \"expiryDate\": \"2025-04-30\",\r\n//     \"redeemQuota\": 100\r\n// }\r\n\r\n// {\r\n//     \"code\": \"SUMMER15\",\r\n//     \"discountAmount\": 15000,\r\n//     \"discountType\": \"FLAT\",\r\n//     \"startDate\": \"2025-05-01\",\r\n//     \"expiryDate\": \"2025-08-31\",\r\n//     \"redeemQuota\": 200\r\n// }\r\n\r\n// {\r\n//     \"code\": \"FALL20\",\r\n//     \"discountAmount\": 20000,\r\n//     \"discountType\": \"FLAT\",\r\n//     \"startDate\": \"2025-09-01\",\r\n//     \"expiryDate\": \"2025-11-30\",\r\n//     \"redeemQuota\": 150\r\n// }\r\n\r\n// {\r\n//     \"code\": \"WINTER25\",\r\n//     \"discountAmount\": 25000,\r\n//     \"discountType\": \"FLAT\",\r\n//     \"startDate\": \"2025-12-01\",\r\n//     \"expiryDate\": \"2026-02-28\",\r\n//     \"redeemQuota\": 180\r\n// }\r\n\r\n// {\r\n//     \"code\": \"WELCOME5\",\r\n//     \"discountAmount\": 5000,\r\n//     \"discountType\": \"FLAT\",\r\n//     \"startDate\": \"2025-03-01\",\r\n//     \"expiryDate\": \"2025-12-31\",\r\n//     \"redeemQuota\": 500\r\n// }\r\n\r\n// {\r\n//     \"code\": \"LOYAL30\",\r\n//     \"discountAmount\": 30,\r\n//     \"discountType\": \"PERCENTAGE\",\r\n//     \"startDate\": \"2025-06-01\",\r\n//     \"expiryDate\": \"2026-06-30\",\r\n//     \"redeemQuota\": 250\r\n// }\r\n\r\n// {\r\n//     \"code\": \"VIP50\",\r\n//     \"discountAmount\": 50,\r\n//     \"discountType\": \"PERCENTAGE\",\r\n//     \"startDate\": \"2025-07-01\",\r\n//     \"expiryDate\": \"2026-07-31\",\r\n//     \"redeemQuota\": 100\r\n// }\r\n\r\n// {\r\n//     \"code\": \"FLASH12\",\r\n//     \"discountAmount\": 12000,\r\n//     \"discountType\": \"FLAT\",\r\n//     \"startDate\": \"2025-03-01\",\r\n//     \"expiryDate\": \"2025-06-30\",\r\n//     \"redeemQuota\": 300\r\n// }\r\n\r\n// {\r\n//     \"code\": \"HOLIDAY40\",\r\n//     \"discountAmount\": 40000,\r\n//     \"discountType\": \"FLAT\",\r\n//     \"startDate\": \"2025-11-01\",\r\n//     \"expiryDate\": \"2026-01-15\",\r\n//     \"redeemQuota\": 220\r\n// }\r\n\r\n// {\r\n//     \"code\": \"NEWYEAR20\",\r\n//     \"discountAmount\": 20,\r\n//     \"discountType\": \"PERCENTAGE\",\r\n//     \"startDate\": \"2025-12-25\",\r\n//     \"expiryDate\": \"2026-03-31\",\r\n//     \"redeemQuota\": 180\r\n// }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -766,6 +807,120 @@
 								"api",
 								"admin",
 								"coupon"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Gift Card",
+			"item": [
+				{
+					"name": "Gift Card List",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/admin/gift-cards",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"gift-cards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Gift Card by Code",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/admin/gift-cards/:giftCardCode",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"gift-cards",
+								":giftCardCode"
+							],
+							"variable": [
+								{
+									"key": "giftCardCode",
+									"value": "G5Ct8CKuW5xL"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Gift Card",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"code\": \"BLACKFRIDAY\",\r\n    \"discountAmount\": 40000,\r\n    \"startDate\": \"2025-11-15\",\r\n    \"expiryDate\": \"2026-01-31\",\r\n    \"redeemQuota\": 220\r\n}\r\n\r\n// {\r\n//     \"code\": \"SPRING10\",\r\n//     \"discountAmount\": 10000,\r\n//     \"startDate\": \"2025-02-15\",\r\n//     \"expiryDate\": \"2025-04-30\",\r\n//     \"redeemQuota\": 100\r\n// }\r\n\r\n// {\r\n//     \"code\": \"SUMMER15\",\r\n//     \"discountAmount\": 15000,\r\n//     \"startDate\": \"2025-05-01\",\r\n//     \"expiryDate\": \"2025-08-31\",\r\n//     \"redeemQuota\": 200\r\n// }\r\n\r\n// {\r\n//     \"code\": \"FALL20\",\r\n//     \"discountAmount\": 20000,\r\n//     \"startDate\": \"2025-09-01\",\r\n//     \"expiryDate\": \"2025-11-30\",\r\n//     \"redeemQuota\": 150\r\n// }\r\n\r\n// {\r\n//     \"code\": \"WINTER25\",\r\n//     \"discountAmount\": 25000,\r\n//     \"startDate\": \"2025-12-01\",\r\n//     \"expiryDate\": \"2026-02-28\",\r\n//     \"redeemQuota\": 180\r\n// }\r\n\r\n// {\r\n//     \"code\": \"WELCOME5\",\r\n//     \"discountAmount\": 5000,\r\n//     \"startDate\": \"2025-03-01\",\r\n//     \"expiryDate\": \"2025-12-31\",\r\n//     \"redeemQuota\": 500\r\n// }\r\n\r\n// {\r\n//     \"code\": \"LOYAL30\",\r\n//     \"discountAmount\": 30000,\r\n//     \"startDate\": \"2025-06-01\",\r\n//     \"expiryDate\": \"2026-06-30\",\r\n//     \"redeemQuota\": 250\r\n// }\r\n\r\n// {\r\n//     \"code\": \"VIP50\",\r\n//     \"discountAmount\": 50000,\r\n//     \"startDate\": \"2025-07-01\",\r\n//     \"expiryDate\": \"2026-07-31\",\r\n//     \"redeemQuota\": 100\r\n// }\r\n\r\n// {\r\n//     \"code\": \"FLASH12\",\r\n//     \"discountAmount\": 12000,\r\n//     \"startDate\": \"2025-03-01\",\r\n//     \"expiryDate\": \"2025-06-30\",\r\n//     \"redeemQuota\": 300\r\n// }\r\n\r\n// {\r\n//     \"code\": \"HOLIDAY40\",\r\n//     \"discountAmount\": 40000,\r\n//     \"startDate\": \"2025-11-01\",\r\n//     \"expiryDate\": \"2026-01-15\",\r\n//     \"redeemQuota\": 220\r\n// }\r\n\r\n// {\r\n//     \"code\": \"NEWYEAR20\",\r\n//     \"discountAmount\": 20000,\r\n//     \"startDate\": \"2025-12-25\",\r\n//     \"expiryDate\": \"2026-03-31\",\r\n//     \"redeemQuota\": 180\r\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/admin/gift-card?balance=1200000",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"gift-card"
+							],
+							"query": [
+								{
+									"key": "balance",
+									"value": "1200000"
+								}
 							]
 						}
 					},
@@ -922,15 +1077,15 @@
 							"variable": [
 								{
 									"key": "cartId",
-									"value": "3"
+									"value": "1"
 								},
 								{
 									"key": "productId",
-									"value": "11"
+									"value": "1"
 								},
 								{
 									"key": "quantity",
-									"value": "2"
+									"value": "1"
 								}
 							]
 						}
@@ -1138,15 +1293,75 @@
 							"variable": [
 								{
 									"key": "email",
-									"value": "alexander.brown@example.com"
+									"value": "michael.anderson@example.com"
 								},
 								{
 									"key": "cartId",
-									"value": "3"
+									"value": "1"
 								},
 								{
 									"key": "paymentMethod",
 									"value": "Credit"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Order With Gift Cards",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"giftCardCodes\": [\r\n    \"zx9dX6mUSS6t\"\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/public/users/:email/carts/:cartId/gift-cards/order",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"public",
+								"users",
+								":email",
+								"carts",
+								":cartId",
+								"gift-cards",
+								"order"
+							],
+							"query": [
+								{
+									"key": "couponCode",
+									"value": "SPRING10",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "email",
+									"value": "michael.anderson@example.com"
+								},
+								{
+									"key": "cartId",
+									"value": "1"
 								}
 							]
 						}
@@ -1387,11 +1602,11 @@
 							"variable": [
 								{
 									"key": "categoryId",
-									"value": "10"
+									"value": "1"
 								},
 								{
 									"key": "brandId",
-									"value": "20"
+									"value": "1"
 								}
 							]
 						}
