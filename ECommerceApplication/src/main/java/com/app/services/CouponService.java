@@ -23,7 +23,5 @@ public interface CouponService {
     CouponDTO redeemCoupon(Coupon coupon);
 
     UserDTO assignCoupon(Long userId, String code);
-  
-    void validateDiscount(DiscountType discountType, Double discountAmount);
 
 }
