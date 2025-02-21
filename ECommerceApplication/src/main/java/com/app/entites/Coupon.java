@@ -1,5 +1,6 @@
 package com.app.entites;
 
+import com.app.enums.DiscountType;
 import java.time.LocalDate;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
