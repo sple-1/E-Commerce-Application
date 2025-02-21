@@ -43,7 +43,7 @@ public class Order {
 	@JoinColumn(name = "payment_id")
 	private Payment payment;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "coupon_id", referencedColumnName = "couponId")
 	private Coupon coupon;
 
