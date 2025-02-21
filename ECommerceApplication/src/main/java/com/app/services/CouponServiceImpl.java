@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.entites.Coupon;
+import com.app.enums.DiscountType;
 import com.app.exceptions.APIException;
 import com.app.exceptions.ResourceNotFoundException;
 import com.app.payloads.CouponDTO;
@@ -63,6 +64,8 @@ public class CouponServiceImpl implements CouponService {
                 throw new APIException("Start date should be in the future");
             }
 
+            validateDiscount(coupon.getDiscountType(), coupon.getDiscountAmount());
+
             savedCoupon = couponRepo.save(coupon);
 
             couponDTO = modelMapper.map(savedCoupon, CouponDTO.class);
@@ -111,12 +114,15 @@ public class CouponServiceImpl implements CouponService {
         if (coupon.getStartDate().isBefore(java.time.LocalDate.now())) {
             throw new APIException("Start date should be in the future");
         }
+        validateDiscount(couponDTO.getDiscountType(), couponDTO.getDiscountAmount());
 
+        coupon.setDiscountType(couponDTO.getDiscountType());
         coupon.setCode(couponDTO.getCode());
         coupon.setDiscountAmount(couponDTO.getDiscountAmount());
         coupon.setStartDate(LocalDate.parse(couponDTO.getStartDate()));
         coupon.setExpiryDate(LocalDate.parse(couponDTO.getExpiryDate()));
         coupon.setRedeemQuota(couponDTO.getRedeemQuota());
+
 
         Coupon updatedCoupon = couponRepo.save(coupon);
 
@@ -186,4 +192,17 @@ public class CouponServiceImpl implements CouponService {
 
         return userDTO;
     }
+
+    private void validateDiscount(DiscountType discountType, Double discountAmount) {
+        if (discountType == DiscountType.PERCENTAGE) {
+            if (discountAmount < 0 || discountAmount > 100) {
+                throw new APIException("Percentage discount must be between 0 and 100.");
+            }
+        } else if (discountType == DiscountType.FLAT) {
+            if (discountAmount < 0) {
+                throw new APIException("Flat discount must be a positive number.");
+            }
+        }
+    }    
+
 }

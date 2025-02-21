@@ -1,5 +1,6 @@
 package com.app.entites;
 
+import com.app.enums.DiscountType;
 import java.time.LocalDate;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -28,8 +29,10 @@ public class Coupon {
     @Column(unique = true, nullable = false)
     private String code;
 
-    @NotNull
-    @Positive
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private DiscountType discountType;
+
     private Double discountAmount;
 
     private LocalDate startDate;
