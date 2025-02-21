@@ -95,8 +95,15 @@ public class OrderServiceImpl implements OrderService {
 			CouponDTO couponDTO = couponService.redeemCoupon(coupon);
 			order.setCoupon(coupon);
 	
-			double discountedAmount = cart.getTotalPrice() - couponDTO.getDiscountAmount();
-			order.setFinalAmount(Math.max(0, discountedAmount)); // Min 0
+			double discount = 0.0;
+			if (coupon.getDiscountType() == DiscountType.FLAT) {
+				discount = coupon.getDiscountAmount();
+			} else if (coupon.getDiscountType() == DiscountType.PERCENTAGE) {
+				discount = (coupon.getDiscountAmount() / 100) * cart.getTotalPrice();
+			}
+
+			double finalAmount = Math.max(cart.getTotalPrice() - discount, 0); // Min 0
+			order.setFinalAmount(finalAmount);
 		} else {
 			order.setFinalAmount(cart.getTotalPrice());
 		}

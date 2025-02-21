@@ -20,4 +20,6 @@ public interface CouponService {
     boolean canRedeem(String code);
 
     CouponDTO redeemCoupon(Coupon coupon);
+
+    void validateDiscount(DiscountType discountType, Double discountAmount);
 }
